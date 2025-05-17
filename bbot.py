@@ -1,15 +1,15 @@
 import os
 import re
 import telebot
-import yt_dlp
+import yt_dlp, base64
 from time import sleep
 
 #BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE'
-apik = "5296878013:AAFvVyUdUBGty1vNaj1LNGqU4N4P_EHpzNw"
+apik = base64.b64decode(b'NTI5Njg3ODAxMzpBQUZ2VnlVZFVCR3R5MXZOYWoxTE5HcVU0TjRQX0VIcHpOdw==')
 DOWNLOAD_DIR = 'downloads'
 LINKS_FILE = 'user_links.txt'
 
-bot = telebot.TeleBot(apik)
+bot = telebot.TeleBot(apik.decode())
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 user_links = {}
@@ -126,8 +126,8 @@ def handle_download(call):
         print(E)
         bot.send_message(chat_id, "Gagal mengirim file.")
     finally:
-        #if os.path.exists(output_path):
-            #os.remove(output_path)
+        if os.path.exists(output_path):
+            os.remove(output_path)
         user_links.pop(user_id, None)
         # Hapus pesan status
         bot.delete_message(chat_id, message_id)
